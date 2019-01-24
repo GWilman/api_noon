@@ -10,7 +10,7 @@ function listingsIndex(req, res, next) {
 function listingsCreate(req, res, next) {
   Listing
     .create(req.body)
-    .then(listing => res.status(201).json(listing))
+    .then(listing => res.status(200).json(listing))
     .catch(next);
 }
 
