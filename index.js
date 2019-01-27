@@ -14,11 +14,19 @@ const customResponses = require('./lib/custom_responses');
 mongoose.set('useCreateIndex', true); // stops deprecation warning in mongoose ^5.3.1
 mongoose.connect(dbURI, { useNewUrlParser: true });
 
-// app.use((req,res,next) => {
-//   res.header('Access-Control-Allow-Origin', '*'); // temp for local testing
-//   next();
-// });
-app.use(cors());
+// CORS config
+const whitelist = ['http://localhost:3000']; // add allowed domains
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
 
 app.use(customResponses);
